@@ -1,0 +1,11 @@
+{
+    "dotnet.defaultSolution": "Presentation.sln",
+    "cSpell.words": [
+        "appsettings",
+        "ASPNETCORE",
+        "Dtos",
+        "Hsts",
+        "Npgsql",
+        "v'VVV"
+    ]
+}
