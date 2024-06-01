@@ -5,6 +5,7 @@
         "ASPNETCORE",
         "Dtos",
         "Hsts",
+        "Minio",
         "Npgsql",
         "v'VVV"
     ]

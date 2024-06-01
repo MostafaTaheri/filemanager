@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Service.Features;
 using Service.Interfaces;
 using Service.Repositories;
 
@@ -28,6 +29,7 @@ public static class ServiceInjectExtension
     public static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddScoped<IFileManagerService, FileManagerService>();
+        services.AddScoped<IMinioHandlerService, MinioHandlerService>();
 
         return services;
     }
