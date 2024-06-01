@@ -26,8 +26,21 @@ public sealed class FileManagerService : IFileManagerService
             string fileName = string.Concat(_minionHandler.GenerateFileName(), Path.GetExtension(file.FileName));
             string obj = string.Concat(files.Directory, '/', fileName);
 
-            if(await _minionHandler.WriteFileAsync(file, files.Bucket, obj))
-                finalUrls.Add(string.Concat(files.Bucket, '/', obj));
+            using (MemoryStream memoryStream = new MemoryStream())
+            {
+                await file.CopyToAsync(memoryStream);
+                var fileBytes = memoryStream.ToArray();
+
+
+                if(await _minionHandler.WriteFileAsync(
+                    file: new MemoryStream(fileBytes), 
+                    length: file.Length,
+                    contentType: file.ContentType,
+                    bucket: files.Bucket,
+                    obj: obj
+                ))
+                    finalUrls.Add(string.Concat(files.Bucket, '/', obj));
+            }
         }
 
         finalUrls.TryGetNonEnumeratedCount(out int count);

@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using Microsoft.AspNetCore.Http;
 using Minio;
 using Minio.DataModel.Args;
 using Service.Interfaces;
@@ -15,33 +14,27 @@ public sealed class MinioHandlerService : IMinioHandlerService
         _minioClient = minioClient;
     }
 
-    public async Task<bool> WriteFileAsync(IFormFile file, string bucket, string obj)
+    public async Task<bool> WriteFileAsync(Stream file, long length, string contentType, string bucket, string obj)
     {
        bool flag = true;
 
         try
         {
-            using (MemoryStream memoryStream = new MemoryStream())
-            {
-                await file.CopyToAsync(memoryStream);
-                var fileBytes = memoryStream.ToArray();
+            var pubObjectArgs = new PutObjectArgs()
+                .WithBucket(bucket)
+                .WithObject(obj)
+                .WithStreamData(file)
+                .WithObjectSize(length)
+                .WithContentType(contentType);
 
-                var pubObjectArgs = new PutObjectArgs()
-                    .WithBucket(bucket)
-                    .WithObject(obj)
-                    .WithStreamData(new MemoryStream(fileBytes))
-                    .WithObjectSize(file.Length)
-                    .WithContentType(file.ContentType);
-
-                await _minioClient.PutObjectAsync(pubObjectArgs).ConfigureAwait(false);
-
-            }
+            await _minioClient.PutObjectAsync(pubObjectArgs).ConfigureAwait(false);
         }
         catch (Exception ex)
         {
             Console.WriteLine("File Upload Error: {0}", ex.Message);
             flag = false;
         }
+        
         return flag;
     }
 
