@@ -38,7 +38,6 @@ public sealed class MinioHandlerService : IMinioHandlerService
         return flag;
     }
 
-
     public async Task<bool> CreateBucketAsync(string name, string location)
     {
         bool flag = false;
