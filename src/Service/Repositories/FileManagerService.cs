@@ -29,11 +29,9 @@ public sealed class FileManagerService : IFileManagerService
             using (MemoryStream memoryStream = new MemoryStream())
             {
                 await file.CopyToAsync(memoryStream);
-                var fileBytes = memoryStream.ToArray();
-
 
                 if(await _minionHandler.WriteFileAsync(
-                    file: new MemoryStream(fileBytes), 
+                    file: new MemoryStream(memoryStream.ToArray()), 
                     length: file.Length,
                     contentType: file.ContentType,
                     bucket: files.Bucket,
