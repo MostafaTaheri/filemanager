@@ -8,6 +8,4 @@ public interface IMinioHandlerService
     Task<bool> CreateBucketAsync(string name, string location);
     Task SetPolicyAsync(string bucket, string policy);
     string GenerateFileName();
-
-
 }

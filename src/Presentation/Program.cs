@@ -2,21 +2,9 @@ using System.Reflection;
 using System.Text.Encodings.Web;
 using System.Text.Unicode;
 using AspNetCoreRateLimit;
-// using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-// using CacheManager.Core;
-// using Microsoft.OpenApi.Models;
-// using Microsoft.EntityFrameworkCore;
 using FluentValidation;
-
-
-// using Infrastructure.Databases.Contexts;
-// using Domain.Entities;
 using Service.Extensions;
-// using Infrastructure.Configurations;
-// using Microsoft.IdentityModel.Tokens;
-// using Microsoft.AspNetCore.Authentication.JwtBearer;
-using System.Text;
 
 using Minio;
 
@@ -46,11 +34,6 @@ builder.Services.AddSingleton<IProcessingStrategy, AsyncKeyLockProcessingStrateg
 builder.Services.AddInMemoryRateLimiting();
 
 
-// builder.Services.AddCacheManagerConfiguration(cfg =>
-//     cfg.WithMaxRetries(10).WithRetryTimeout(500).WithUpdateMode(CacheUpdateMode.Up)
-//         .WithMicrosoftMemoryCacheHandle().EnableStatistics());
-
-
 builder.Services.AddApiVersioning(opt =>
 {
     opt.AssumeDefaultVersionWhenUnspecified = true;
@@ -78,44 +61,9 @@ builder.Services.AddSingleton<HtmlEncoder>(
 
 builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
-// var sqlConnectionString = Environment.GetEnvironmentVariable("SQLSERVER");
-// var migrationsAssembly = typeof(PostgresContext).GetTypeInfo().Assembly.GetName().Name;
-
-// builder.Services.AddDbContext<PostgresContext>(options =>
-//         options.UseSqlServer(sqlConnectionString,
-//         sqlServerOptionsAction: sqlOptions =>
-//         {
-//             sqlOptions.MigrationsAssembly(migrationsAssembly);
-//             sqlOptions.EnableRetryOnFailure(maxRetryCount: 150,
-//                                             maxRetryDelay: TimeSpan.FromSeconds(10),
-//                                             errorNumbersToAdd: null);
-//             sqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "dbo");
-//         }));
-// builder.Services.AddIdentity<User, IdentityRole>()
-//         .AddEntityFrameworkStores<PostgresContext>()
-//         .AddDefaultTokenProviders();
-
-
-
-
 builder.Services.AddServices();
 
 builder.Services.AddResponseCaching();
-
-// builder.Services.AddSwaggerGen(options =>
-// {
-//     options.SwaggerDoc("v1", new OpenApiInfo { Version = "v1", Title = "Identity API V1" });
-//     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
-//     {
-//         Name = "Authorization",
-//         Type = SecuritySchemeType.ApiKey,
-//         Scheme = "Bearer",
-//         BearerFormat = "JWT",
-//         In = ParameterLocation.Header,
-//         Description = "JWT Authorization header using the Bearer scheme. Example: Bearer",
-//     });
-// });
-
 
 
 var endpoint = Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
@@ -141,12 +89,6 @@ if (!app.Environment.IsDevelopment())
 {
     app.UseHsts();
 }
-// else
-// {
-//     app.UseSwagger();
-//     app.UseSwaggerUI();
-// }
-
 
 app.UseRouting();
 app.UseAuthorization();
