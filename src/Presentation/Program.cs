@@ -5,7 +5,6 @@ using AspNetCoreRateLimit;
 using Microsoft.AspNetCore.Mvc;
 using FluentValidation;
 using Service.Extensions;
-
 using Minio;
 
 DotNetEnv.Env.Load();
@@ -68,7 +67,7 @@ builder.Services.AddResponseCaching();
 
 var endpoint = Environment.GetEnvironmentVariable("MINIO_ENDPOINT");
 var accessKey = Environment.GetEnvironmentVariable("MINIO_ACCESSKEY");
-var secretKey = Environment.GetEnvironmentVariable("MINIO_SECRETKEY");   
+var secretKey = Environment.GetEnvironmentVariable("MINIO_SECRETKEY");
 
 
 builder.Services.AddMinio(config => config
